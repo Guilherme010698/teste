@@ -60,7 +60,7 @@ st.title("Análise de Alertas do Waze - Minas Gerais")
 
 try:
     user = st.secrets["GIS"]["user"]
-    password = st.secrets["GIS"]["passoword"]
+    password = st.secrets["GIS"]["password"]
     
     # Conectar ao GIS
     gis = GIS("https://observatorio.infraestrutura.mg.gov.br/portal", user, password)
