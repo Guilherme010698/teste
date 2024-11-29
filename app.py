@@ -134,8 +134,7 @@ token_url = "https://observatorio.infraestrutura.mg.gov.br/portal/sharing/rest/g
 feature_layer_url = "https://observatorio.infraestrutura.mg.gov.br/server/rest/services/00_PUBLICACOES/waze_alertas_transito/FeatureServer/0/query"
 
 # Credenciais de login
-user = "Codex.Meio.Ambiente"
-password = "der@2024"
+
 
 # Parâmetros para obter o token
 token_params = {
