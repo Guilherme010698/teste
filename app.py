@@ -101,11 +101,6 @@ if response.status_code == 200:
     features = data.get("features", [])
     attributes = [feature["attributes"] for feature in features]
     dados = pd.DataFrame(attributes)
-
-# Criando colunas de coordenadas X e Y a partir da geometria
-    dados['x'] = dados['SHAPE'].apply(lambda point: point.x if point else None)
-    dados['y'] = dados['SHAPE'].apply(lambda point: point.y if point else None)
-
     dados['subtype'] = dados['subtype'].astype(str)
     dados['regional'] = dados['regional'].astype(str)
     dados['subtype'] = dados['subtype'].replace(traducao)
