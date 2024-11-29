@@ -1,14 +1,10 @@
-import arcgis
+import requests
 import pandas as pd
 import plotly.express as px
 import folium
 from folium.plugins import HeatMap
 import streamlit as st
-from streamlit_folium import folium_static  
-from arcgis.gis import GIS
-
-
-
+from streamlit_folium import folium_static
 
 # Traduções
 traducao = {
@@ -58,35 +54,60 @@ traducao_tipo = {
 st.set_page_config(layout="wide")
 st.title("Análise de Alertas do Waze - Minas Gerais")
 
-try:
-    user = st.secrets["GIS"]["user"]
-    password = st.secrets["GIS"]["password"]
-    
-    # Conectar ao GIS
-    gis = GIS("https://observatorio.infraestrutura.mg.gov.br/portal", user, password)
-    st.success("Conexão com o GIS bem-sucedida!")
-except Exception as e:
-    st.error(f"Erro ao conectar ao GIS: {e}")
-    st.stop()
+# URLs do serviço e do endpoint de token
+token_url = "https://observatorio.infraestrutura.mg.gov.br/portal/sharing/rest/generateToken"
+feature_layer_url = "https://observatorio.infraestrutura.mg.gov.br/server/rest/services/00_PUBLICACOES/waze_alertas_transito/FeatureServer/0/query"
 
-# Conectar à camada de features
-try:
-    feature_layer = arcgis.features.FeatureLayer(
-        "https://observatorio.infraestrutura.mg.gov.br/server/rest/services/00_PUBLICACOES/waze_alertas_transito/FeatureServer/0"
-    )
-    st.success("Camada de alertas carregada com sucesso!")
-except Exception as e:
-    st.error(f"Erro ao carregar a camada: {e}")
-    st.stop()
+# Credenciais de login
+user = st.secrets["API"]["user"]
+password = st.secrets["API"]["password"]
 
-# Consultar dados da camada
-try:
-    tabela = feature_layer.query(where="1=1", out_fields="*", return_geometry=True)
-    dados = tabela.sdf  # Converter para DataFrame
-    st.write("Dados Extraídos da Camada:")
-    st.dataframe(dados)  # Exibir os dados na interface
-except Exception as e:
-    st.error(f"Erro ao consultar os dados da camada: {e}")
+
+# Parâmetros para obter o token
+token_params = {
+    "username": user,
+    "password": password,
+    "referer": "https://observatorio.infraestrutura.mg.gov.br/portal",
+    "f": "json",
+}
+
+# Solicitar o token
+token_response = requests.post(token_url, data=token_params)
+if token_response.status_code == 200:
+    token_data = token_response.json()
+    if "token" in token_data:
+        token = token_data["token"]
+        print("Token obtido com sucesso!")
+    else:
+        print("Erro ao obter o token:", token_data)
+        exit()
+else:
+    print(f"Erro na requisição do token: {token_response.status_code}")
+    print(token_response.text)
+    exit()
+
+# Parâmetros para consultar o FeatureLayer
+query_params = {
+    "where": "1=1",  # Consulta para retornar todos os dados
+    "outFields": "*",  # Retornar todos os campos
+    "returnGeometry": "true",  # Incluir geometria dos objetos
+    "f": "json",  # Formato da resposta (JSON)
+    "token": token,  # Token de autenticação
+}
+
+# Enviar requisição ao FeatureLayer
+response = requests.get(feature_layer_url, params=query_params)
+if response.status_code == 200:
+    data = response.json()  # Parse do JSON
+    # Extrair atributos e transformar em DataFrame
+    features = data.get("features", [])
+    attributes = [feature["attributes"] for feature in features]
+    dados = pd.DataFrame(attributes)
+
+dados['subtype'] = dados['subtype'].astype(str)
+dados['regional'] = dados['regional'].astype(str)
+dados['subtype'] = dados['subtype'].replace(traducao)
+dados['type'] = dados['type'].replace(traducao_tipo)
 
 # Criando colunas de coordenadas X e Y a partir da geometria
 dados['x'] = dados['SHAPE'].apply(lambda point: point.x if point else None)
