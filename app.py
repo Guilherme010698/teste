@@ -63,7 +63,7 @@ password = st.secrets["API"]["password"]
 
 # Parâmetros para obter o token
 token_params = {
-    "user": user,
+    "username": user,
     "password": password,
     "referer": "https://observatorio.infraestrutura.mg.gov.br/portal",
     "f": "json",
