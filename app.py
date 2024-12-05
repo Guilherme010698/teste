@@ -406,9 +406,10 @@ if pagina == "Página 1: Geral":
             mapa = folium.Map(location=[-19.8157, -43.9542], zoom_start=6, tiles=None)  # Coordenadas iniciais de Minas Gerais
 
             folium.TileLayer(
-            tiles="https://tiles.stadiamaps.com/styles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
-            attr='Stadia Maps © <a href="https://stadiamaps.com/">Stadia Maps</a>',
-            name="Stadia.AlidadeSmoothDark"
+            tiles="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+            attr='CartoDB © <a href="https://carto.com/">CartoDB</a>',
+            name="CartoDB.DarkMatter"
+                ).add_to(m)
             ).add_to(mapa)
             
             # Preparando os dados para o mapa
@@ -795,9 +796,10 @@ if pagina == "Página 2: Engarrafamentos":
     m = folium.Map(location=[-19.965, -44.740], zoom_start=6, tiles=None)
 
     folium.TileLayer(
-        tiles="https://tiles.stadiamaps.com/styles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
-        attr='Stadia Maps © <a href="https://stadiamaps.com/">Stadia Maps</a>',
-        name="Stadia.AlidadeSmoothDark"
+        tiles="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        attr='CartoDB © <a href="https://carto.com/">CartoDB</a>',
+        name="CartoDB.DarkMatter"
+            ).add_to(m)
     ).add_to(m)
 
     # Coletar todos os pontos para ajustar os limites do mapa
