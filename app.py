@@ -799,8 +799,7 @@ if pagina == "Página 2: Engarrafamentos":
         attr='CartoDB © <a href="https://carto.com/">CartoDB</a>',
         name="CartoDB.DarkMatter"
             ).add_to(m)
-    ).add_to(m)
-
+    
     # Coletar todos os pontos para ajustar os limites do mapa
     all_coords = []
 
