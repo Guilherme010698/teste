@@ -409,8 +409,7 @@ if pagina == "Página 1: Geral":
             tiles="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
             attr='CartoDB © <a href="https://carto.com/">CartoDB</a>',
             name="CartoDB.DarkMatter"
-                ).add_to(m)
-            ).add_to(mapa)
+                ).add_to(mapa)
             
             # Preparando os dados para o mapa
             heat_data = filtered_data[['Latitude', 'Longitude']].dropna().values.tolist()
