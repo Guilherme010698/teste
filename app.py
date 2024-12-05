@@ -667,7 +667,7 @@ if pagina == "Página 2: Engarrafamentos":
             value=f"{total_alertas_jam} Engarrafamentos ⚠️"
         )
         comprimento_total = filtered_data_jam['length'].sum() / 1000
-        st.markdown(f'<p class="custom-text"><b>Distância total dos engarrafamentos:</b> {int(comprimento_total)} km</p>',
+        st.markdown(f'<p class="custom-text"><b>Comprimento total dos engarrafamentos:</b> {int(comprimento_total)} km</p>',
         unsafe_allow_html=True)
     
     with col2:
