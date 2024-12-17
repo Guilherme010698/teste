@@ -84,7 +84,7 @@ if pagina == "Página 1: Geral":
 
     # URLs do serviço e do endpoint de token
     token_url = "https://observatorio.infraestrutura.mg.gov.br/portal/sharing/rest/generateToken"
-    feature_layer_url = "https://observatorio.infraestrutura.mg.gov.br/server/rest/services/00_PUBLICACOES/waze_alertas_transito/FeatureServer/0/query"
+    feature_layer_url = "https://observatorio.infraestrutura.mg.gov.br/server/rest/services/00_PUBLICACOES/waze_tempo_real/FeatureServer/1/query"
     
     # Credenciais de login
     user = st.secrets["API"]["user"]
