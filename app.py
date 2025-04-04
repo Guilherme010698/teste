@@ -82,36 +82,7 @@ if pagina == "Página 1: Geral":
         'regional', 'jurisdicao', 'x', 'y'
     ]
 
-    # URLs do serviço e do endpoint de token
-    token_url = "https://observatorio.infraestrutura.mg.gov.br/portal/sharing/rest/generateToken"
-    feature_layer_url = "https://observatorio.infraestrutura.mg.gov.br/server/rest/services/00_PUBLICACOES/waze_tempo_real/FeatureServer/01/query"
     
-    # Credenciais de login
-    user = st.secrets["API"]["user"]
-    password = st.secrets["API"]["password"]
-
-    # Parâmetros para obter o token
-    token_params = {
-        "username": user,
-        "password": password,
-        "referer": "https://observatorio.infraestrutura.mg.gov.br/portal",
-        "f": "json",
-    }
-
-    # Solicitar o token
-    token_response = requests.post(token_url, data=token_params)
-    if token_response.status_code == 200:
-        token_data = token_response.json()
-        if "token" in token_data:
-            token = token_data["token"]
-            print("Token obtido com sucesso!")
-        else:
-            print("Erro ao obter o token:", token_data)
-            exit()
-    else:
-        print(f"Erro na requisição do token: {token_response.status_code}")
-        print(token_response.text)
-        exit()
 
     # Parâmetros para consultar o FeatureLayer
     query_params = {
